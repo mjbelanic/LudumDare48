@@ -6,5 +6,6 @@ public enum PickupType
 {
     POWER,
     HEALTH,
-    PERSON
+    PERSON,
+    TIME
 }

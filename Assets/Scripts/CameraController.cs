@@ -11,6 +11,11 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private Vector3 offset;
 
+    void Awake()
+    {
+        player = GameObject.Find("Player").GetComponent<Player>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

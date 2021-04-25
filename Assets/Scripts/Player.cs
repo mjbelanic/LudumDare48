@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,12 +25,40 @@ public class Player : MonoBehaviour
     GameManager gameManager;
     [SerializeField]
     Drill drill;
+    [SerializeField]
+    AudioClip drillClip;
+    [SerializeField]
+    AudioClip hoverClip;
 
     Rigidbody2D tankRigidbody;
     Animator tankAnimator;
-    BoxCollider2D tankCollider; 
+    AudioSource drillAudioSource;
+    AudioSource hoverAudioSource;
+    BoxCollider2D tankCollider;
     float defaultGravityScale;
     Scene currentScene;
+
+    public void Awake()
+    {
+        drillAudioSource = AddAudioFiles(drillClip, true, false, -1, 1);
+        hoverAudioSource = AddAudioFiles(hoverClip, true, false, -2.2f, .25f);
+    }
+
+    private AudioSource AddAudioFiles(AudioClip clip, bool loops, bool playAwake, float pitch, float vol)
+    {
+        AudioSource newAudio = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+        newAudio.clip = clip;
+        newAudio.loop = loops;
+        newAudio.playOnAwake = playAwake;
+        newAudio.pitch = pitch;
+        newAudio.volume = vol;
+        return newAudio;
+    }
+
+    internal void IncreaseTime(int value)
+    {
+        gameManager.AddMoreTime(value);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -38,9 +67,15 @@ public class Player : MonoBehaviour
         tankRigidbody = GetComponent<Rigidbody2D>();
         tankCollider = GetComponent<BoxCollider2D>();
         tankAnimator = GetComponent<Animator>();
+        drillAudioSource = GetComponent<AudioSource>();
         defaultGravityScale = tankRigidbody.gravityScale;
-        health = 50;
-        power = 60;
+        if (currentScene.name == "Level")
+        {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            uIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        }
+        health = 100;
+        power = 100;
         peopleSaved = 0;
     }
 
@@ -65,7 +100,7 @@ public class Player : MonoBehaviour
 
     public void IncreasePower(float value)
     {
-        if (power >= 200)
+        if (power >= 100)
         {
             return;
         }
@@ -102,10 +137,12 @@ public class Player : MonoBehaviour
     {
         if(health <= 0)
         {
+            StopAllAudio();
             uIManager.DisplayGameOverPanel("You have run out of health and the rescue drill has become inoperable.");
         }
         if(power <= 0)
         {
+            StopAllAudio();
             uIManager.DisplayGameOverPanel("You ran out of power. You will be unable to get out of the mine at this point.");
         }
         Move();
@@ -129,7 +166,7 @@ public class Player : MonoBehaviour
     {
         if (tankCollider.IsTouchingLayers(LayerMask.GetMask("Hazard")))
         {
-            StartCoroutine("DecreaseHealth", 2);
+            StartCoroutine("DecreaseHealth", 10);
         }
     }
 
@@ -146,12 +183,17 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("Vertical") == 1)
         {
+            hoverAudioSource.Play(0);
             tankAnimator.SetBool("Hovering", true);
             tankRigidbody.AddForce(new Vector2(0, hoverForce));
-            StartCoroutine("DecreasePower", 2);
+            if (currentScene.name == "Level")
+            {
+                StartCoroutine("DecreasePower", 2);
+            }
         }
         else
         {
+            hoverAudioSource.Stop();
             tankAnimator.SetBool("Hovering", false);
         }
     }
@@ -169,12 +211,23 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.E))
         {
+            drillAudioSource.Play(0);
             drill.RunDrill();
-            StartCoroutine("DecreasePower", 2);
+            if (currentScene.name == "Level")
+            {
+                StartCoroutine("DecreasePower", 2);
+            }
         }
         else
         {
+            drillAudioSource.Stop();
             drill.StopDrill();
         }
+    }
+
+    public void StopAllAudio()
+    {
+        drillAudioSource.Stop();
+        hoverAudioSource.Stop();
     }
 }

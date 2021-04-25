@@ -169,6 +169,9 @@ MonoBehaviour:
   hoverForce: 25
   uIManager: {fileID: 0}
   gameManager: {fileID: 0}
+  drill: {fileID: 7016604222327268157}
+  drillClip: {fileID: 8300000, guid: 67b82e058248e71449de139be9b6ad74, type: 3}
+  hoverClip: {fileID: 8300000, guid: 9b8e7969f25907a419c512fd83169c55, type: 3}
 --- !u!1 &3256204608243900182
 GameObject:
   m_ObjectHideFlags: 0
