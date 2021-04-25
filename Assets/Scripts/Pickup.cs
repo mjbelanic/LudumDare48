@@ -21,6 +21,7 @@ public class Pickup : MonoBehaviour
                 break;
             case PickupType.PERSON:
                 FindObjectOfType<Player>().IncreaseSavePeopleCount(value);
+                FindObjectOfType<GameManager>().CheckAllMinersSaved();
                 Destroy(gameObject);
                 break;
             default:

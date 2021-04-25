@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -21,36 +22,32 @@ public class Player : MonoBehaviour
     UIManager uIManager;
     [SerializeField]
     GameManager gameManager;
+    [SerializeField]
+    Drill drill;
 
     Rigidbody2D tankRigidbody;
-    Animator playerAnimator;
-    BoxCollider2D[] tankColliders; 
+    Animator tankAnimator;
+    BoxCollider2D tankCollider; 
     float defaultGravityScale;
-
-
-
-    private void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-    }
+    Scene currentScene;
 
     // Start is called before the first frame update
     void Start()
     {
+        currentScene = SceneManager.GetActiveScene();
         tankRigidbody = GetComponent<Rigidbody2D>();
-        tankColliders = GetComponents<BoxCollider2D>();
+        tankCollider = GetComponent<BoxCollider2D>();
+        tankAnimator = GetComponent<Animator>();
         defaultGravityScale = tankRigidbody.gravityScale;
         health = 50;
         power = 60;
+        peopleSaved = 0;
     }
 
+    public float GetPeopleSavedCount()
+    {
+        return peopleSaved;
+    }
 
     public void IncreaseHealth(float value)
     {
@@ -82,7 +79,6 @@ public class Player : MonoBehaviour
 
     public void IncreaseSavePeopleCount(float value)
     {
-        Debug.Log("Person Saved");
         peopleSaved += value;
     }
 
@@ -104,20 +100,37 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(health <= 0 || power <= 0)
+        if(health <= 0)
         {
-            //Game OVer
+            uIManager.DisplayGameOverPanel("You have run out of health and the rescue drill has become inoperable.");
+        }
+        if(power <= 0)
+        {
+            uIManager.DisplayGameOverPanel("You ran out of power. You will be unable to get out of the mine at this point.");
         }
         Move();
         SetSpriteDirection();
-        uIManager.SetRemaingsMinersText(peopleSaved);
-        uIManager.UpdateHealthSlider(health);
-        uIManager.UpdatePowerSlider(power);
+        CheckForDamage();
+        Drill();
+        if(currentScene.name == "Level")
+        {
+            uIManager.SetRemaingsMinersText(peopleSaved);
+            uIManager.UpdateHealthSlider(health);
+            uIManager.UpdatePowerSlider(power);
+        }
     }
 
     private void FixedUpdate()
     {
         Hover();
+    }
+
+    private void CheckForDamage()
+    {
+        if (tankCollider.IsTouchingLayers(LayerMask.GetMask("Hazard")))
+        {
+            StartCoroutine("DecreaseHealth", 2);
+        }
     }
 
     private void Move()
@@ -127,15 +140,19 @@ public class Player : MonoBehaviour
         tankRigidbody.velocity = velocity;
 
         bool isDriving = Mathf.Abs(tankRigidbody.velocity.x) > Mathf.Epsilon;
-        // animation;
     }
 
     private void Hover()
     {
-        if(Input.GetAxis("Vertical") == 1)
+        if (Input.GetAxis("Vertical") == 1)
         {
+            tankAnimator.SetBool("Hovering", true);
             tankRigidbody.AddForce(new Vector2(0, hoverForce));
             StartCoroutine("DecreasePower", 2);
+        }
+        else
+        {
+            tankAnimator.SetBool("Hovering", false);
         }
     }
 
@@ -150,9 +167,14 @@ public class Player : MonoBehaviour
 
     private void Drill()
     {
-        if (tankColliders[0].IsTouchingLayers(LayerMask.GetMask("Breakable")) && isDrilling)
+        if (Input.GetKey(KeyCode.E))
         {
-
+            drill.RunDrill();
+            StartCoroutine("DecreasePower", 2);
+        }
+        else
+        {
+            drill.StopDrill();
         }
     }
 }

@@ -11,27 +11,54 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject pausePanel;
     [SerializeField]
+    GameObject gameOverPanel;
+    [SerializeField]
+    GameObject successPanel;
+    [SerializeField]
     Slider healthSlider;
     [SerializeField]
     Slider energySlider;
     [SerializeField]
-    TextMeshPro remainingMinersText;
+    TextMeshProUGUI remainingMiners;
     [SerializeField]
-    TextMeshPro remainingTime;
-
+    TextMeshProUGUI remainingTime;
+    [SerializeField]
+    TextMeshProUGUI reasonForFailingText;
+    [SerializeField]
+    GameManager gameManager;
     float maxHealth;
     float maxEnergy;
+    bool pausePanelDisplayed;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        maxHealth = 100;
+        maxEnergy = 100;
+        pausePanelDisplayed = false;
+    }
+
+    internal void DisplayGameOverPanel(string reasonForLosing)
+    {
+        Time.timeScale = 0;
+        gameOverPanel.SetActive(true);
+        reasonForFailingText.text = reasonForLosing;   
+    }
+
+    internal void DisplaySuccessPanel()
+    {
+        Time.timeScale = 0;
+        successPanel.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && pausePanelDisplayed)
+        {
+            ClickResumeButton();
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape) && !pausePanelDisplayed)
         {
             ClickPauseButton();
         }
@@ -41,15 +68,23 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 0;
         pausePanel.SetActive(true);
+        pausePanelDisplayed = true;
     }
 
-    public void ClickResumeButtoN()
+    public void ClickResumeButton()
     {
         Time.timeScale = 1;
         pausePanel.SetActive(false);
+        pausePanelDisplayed = false;
     }
 
-    public void ClickMainManuButton()
+    public void ClickRetryButton()
+    {
+        gameOverPanel.SetActive(false);
+        SceneManager.LoadScene("Level");
+    }
+
+    public void ClickMainMenuButton()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
@@ -64,7 +99,7 @@ public class UIManager : MonoBehaviour
 
     internal void SetRemaingsMinersText(float peopleSaved)
     {
-        remainingMinersText.text = peopleSaved.ToString() + " /100";
+        remainingMiners.text = "Saved " + peopleSaved.ToString() + "/" + gameManager.GetTotalPeopleToBeSave();
     }
 
     internal void UpdateHealthSlider(float health)

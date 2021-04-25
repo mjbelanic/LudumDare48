@@ -5,15 +5,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
     GameObject spawnPoint;
+    [SerializeField]
     GameObject playerPrefab;
+    [SerializeField]
+    Player player;
+    [SerializeField]
     UIManager uIManager;
-    float time = 180f; //300f;
+    float time = 300f;
+    float totalNumberOfMiners = 50f;
 
     // Start is called before the first frame update
     void Start()
     {
-        SpawnPlayer();
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -23,8 +29,7 @@ public class GameManager : MonoBehaviour
         uIManager.UpdateTimeText(time);
         if(time <= 0)
         {
-            Debug.Log("Out of time");
-            // Game Over
+            uIManager.DisplayGameOverPanel("Time is up.");
         }
     }
 
@@ -33,11 +38,16 @@ public class GameManager : MonoBehaviour
         time -= Time.deltaTime;
     }
 
-    void SpawnPlayer()
+    internal void CheckAllMinersSaved()
     {
-        if(playerPrefab == null)
+        if(player.GetPeopleSaved() == totalNumberOfMiners)
         {
-            Instantiate(playerPrefab, spawnPoint.transform);
+            uIManager.DisplaySuccessPanel();
         }
+    }
+
+    internal string GetTotalPeopleToBeSave()
+    {
+        return totalNumberOfMiners.ToString();
     }
 }

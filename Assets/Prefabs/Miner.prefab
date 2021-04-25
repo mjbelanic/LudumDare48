@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 1798814907163876775}
   - component: {fileID: 1798814907163876769}
   - component: {fileID: 1798814907163876770}
-  - component: {fileID: -4885696967704791294}
-  - component: {fileID: -7603241227958374330}
+  - component: {fileID: 624010748}
   m_Layer: 6
   m_Name: Miner
   m_TagString: Untagged
@@ -126,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   value: 1
---- !u!95 &-4885696967704791294
+--- !u!95 &624010748
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -145,18 +144,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!111 &-7603241227958374330
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1798814907163876774}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 8728f19d694ff7b42bd4a29246edd8d2, type: 2}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0

@@ -35,7 +35,6 @@ public class MenuManager : MonoBehaviour
 
     public void ClickQuitButton()
     {
-        Debug.Log("Quit Game");
-        //Application.Quit();
+        Application.Quit();
     }
 }
