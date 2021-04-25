@@ -18,7 +18,7 @@ public class MenuManager : MonoBehaviour
 
     public void ClickOnStartButton()
     {
-        Debug.Log("Start Game");
+        SceneManager.LoadScene("Level");
     }
 
     public void ClickOnHowToPlayButton()

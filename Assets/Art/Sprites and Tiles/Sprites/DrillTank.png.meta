@@ -8,6 +8,12 @@ TextureImporter:
   - first:
       213: 6695074355606704324
     second: DrillTank_1
+  - first:
+      213: 2048996059969815841
+    second: DrillTank_2
+  - first:
+      213: -6815674217174383320
+    second: DrillTank_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -52,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 35
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -125,9 +131,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
-        width: 69
-        height: 32
+        y: 63
+        width: 58
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,10 +151,10 @@ TextureImporter:
       name: DrillTank_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 27
-        width: 69
-        height: 32
+        x: 69
+        y: 70
+        width: 11
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,6 +164,48 @@ TextureImporter:
       bones: []
       spriteID: 4c0d3c687aea9ec50800000000000000
       internalID: 6695074355606704324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrillTank_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 27
+        width: 58
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1250dac7f0f7f6c10800000000000000
+      internalID: 2048996059969815841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrillTank_3
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 33
+        width: 11
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8254884196cd961a0800000000000000
+      internalID: -6815674217174383320
       vertices: []
       indices: 
       edges: []

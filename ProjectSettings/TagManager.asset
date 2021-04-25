@@ -11,11 +11,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Interactable
+  - Hazard
+  - Player
+  - Background
+  - Ground
   - 
   - 
   - 
@@ -46,4 +46,10 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 2572506019
+    locked: 0
+  - name: Interactable
+    uniqueID: 2860741283
+    locked: 0
+  - name: Hazard
+    uniqueID: 1574625327
     locked: 0
