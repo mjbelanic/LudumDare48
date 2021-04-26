@@ -40,8 +40,8 @@ public class Player : MonoBehaviour
 
     public void Awake()
     {
-        drillAudioSource = AddAudioFiles(drillClip, true, false, -1, 1);
-        hoverAudioSource = AddAudioFiles(hoverClip, true, false, -2.2f, .25f);
+        drillAudioSource = AddAudioFiles(drillClip, true, false, 1f, 1);
+        hoverAudioSource = AddAudioFiles(hoverClip, true, false, 1f, .25f);
     }
 
     private AudioSource AddAudioFiles(AudioClip clip, bool loops, bool playAwake, float pitch, float vol)
